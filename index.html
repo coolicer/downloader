@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>下载被墙的文件</title>
+
+    <style>
+        .view {
+            width: 400px;
+            height: 400px;
+            margin: 20px auto;
+        }
+        .btn {
+            display: inline-block;
+            margin-left: 120px;
+            margin-top: 50px;
+            padding: 5px;
+        }
+        input, textarea {
+            margin: 0;
+            padding: 0;
+            border: 1px solid #ccc;
+        }
+        .filed input , .filed textarea{
+            display: inline-block;
+            width: 300px;
+            padding: 5px;
+        }
+    </style>
+  </head>
+  <body>
+    <form action="/" method="POST">
+        <div class="view">
+            <div class="filed">
+                <p>email: </p><input name="email" type="text" />
+            </div>
+            <div class="filed">
+                <p>url: </p>
+                <textarea name="url" cols="30" rows="10"></textarea>
+            </div>
+            <input type="submit" value="下载" class="btn" />
+        </div>
+    </form>
+  </body>
+</html>

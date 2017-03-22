@@ -39,7 +39,7 @@ var _http = http.createServer( function(req, res) {
                 return res.end('链接都错了下载个毛啊');
             }
             aria2.download(url, email);
-            res.writeHead(302, {'Location': 'http://localhost:3001'});
+            res.writeHead(302, {'Location': 'http://127.0.0.1:3001'});
             res.end();
         })
     }
@@ -47,5 +47,5 @@ var _http = http.createServer( function(req, res) {
 
 
 _http.listen(3001 , function() {
-    console.log('server start at: http://localhost:3001')
+    console.log('server start at: http://127.0.0.1:3001');
 });

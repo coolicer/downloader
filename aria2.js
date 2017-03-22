@@ -25,13 +25,26 @@ Down.prototype.init = function() {
 Down.prototype.download = function(url, email) {
     var urlParser = path.parse(url);
     var filename = urlParser.base;
+    var downloadUrl = config.baseUrl; + filename;
     aria2.open(function() {
         aria2.send('addUri', [url] ,function(err, res) {
+            if(M.get(filename) === filename) {
+                _send(email, filename, downloadUrl);
+                return;
+            }
             M.set(email, res, filename);
         });
     });
     _onDownloadStart();
     _onDownloadComplete();
+}
+
+function _send(email, filename, downloadUrl) {
+    util.sendMail({
+        "to": email,
+        "subject": "主人，已经帮你下载好了。",
+        "html": '<div style="font-size:20px;">您要的' + filename + ', 去' + '<a href=" '+ downloadUrl +'">下载</a></div>'
+    });
 }
 
 function _onDownloadStart() {
@@ -48,17 +61,9 @@ function _onDownloadComplete(){
         var item = M.get(gid);
         var filename = item.filename;
         var email = item.email;
-        var baseUrl = config.baseUrl;
-        var downloadUrl = baseUrl + filename;
-        util.sendMail({
-            "to": email,
-            "subject": "主人，已经帮你下载好了。",
-            "html": '<div style="font-size:20px;">您要的' + filename + ', 去' + '<a href=" '+ downloadUrl +'">下载</a></div>'
-        });
-        setTimeout(function() {
-            M.del(gid);
-        }, 3E3);
-
+        var downloadUrl = config.baseUrl + filename;
+        _send(email, filename, downloadUrl);
+        // M.del(gid);
         aria2.onDownloadComplete = noop;
     };
 }

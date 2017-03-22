@@ -27,7 +27,7 @@ MJson.prototype._write = function(json) {
     fs.writeFile(this.filename, _data, function() {});
 }
 
-MJson.prototype.get = function(id) {
+MJson.prototype.get = function(n) {
     this.load(this.filename);
     try {
         var jsonArray = JSON.parse(data);
@@ -38,7 +38,7 @@ MJson.prototype.get = function(id) {
     var _data;
     for(var i = 0; i < jsonArray.length; i++) {
         var item = jsonArray[i];
-        if( item['id'] === id) {
+        if( item[n] === n) {
             return {
                 filename: item['filename'],
                 email: item['email']

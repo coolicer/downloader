@@ -17,7 +17,7 @@ MJson.prototype.set = function(email, id, filename) {
     } catch(err) {
         jsonArray = [];
     }
-    var _data;
+    
     jsonArray.push( { "email": email, "id": id, "filename": filename} );
     this._write(jsonArray);
 }
@@ -34,12 +34,13 @@ MJson.prototype.get = function(n) {
     } catch(err) {
         jsonArray = [];
     }
+    
     if(jsonArray.length === 0) return -1;
-    var _data;
+    
     for(var i = 0; i < jsonArray.length; i++) {
         var item = jsonArray[i];
-        if( item[n] === n) {
-            return {
+        if( item['id'] === n) {
+           return {
                 filename: item['filename'],
                 email: item['email']
             };
@@ -57,7 +58,7 @@ MJson.prototype.del = function(id) {
     if(jsonArray.length === 0) return;
     var key = this.get(id);
     if(key < 0) return;
-    var _data;
+    
     jsonArray.splice(key,1);
     this._write(jsonArray);
 }

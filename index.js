@@ -4,6 +4,7 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 var parser = bodyParser.urlencoded({extended: false});
 var Aria2 = require('./aria2');
+var config = require('./config');
 var aria2 = new Aria2();
 
 var index = fs.readFileSync('./index.html');
@@ -39,7 +40,7 @@ var _http = http.createServer( function(req, res) {
                 return res.end('链接都错了下载个毛啊');
             }
             aria2.download(url, email);
-            res.writeHead(302, {'Location': 'http://127.0.0.1:3001'});
+            res.writeHead(302, {'Location': config.redirect_url});
             res.end();
         })
     }

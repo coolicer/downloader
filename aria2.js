@@ -40,6 +40,7 @@ Down.prototype.download = function(url, email) {
 }
 
 function _send(email, filename, downloadUrl) {
+    filename = decodeURIComponent(filename);
     util.sendMail({
         "to": email,
         "subject": "主人，已经帮你下载好了。",

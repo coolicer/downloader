@@ -27,7 +27,6 @@ function cmdDown(url, filename, email) {
         `,
         function(err, data, stderr){
           let url = config.baseUrl + filename + '.mp4';
-          url = encodeURIComponent(url);
           console.log(url);
           util.sendMail({
               "to": email,

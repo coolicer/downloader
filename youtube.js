@@ -19,15 +19,25 @@ function Youtube(url, email) {
     });
 }
 
+function makeid(){
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 7; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 function cmdDown(url, filename, email) {
+  const randomname = makeid();
   cmd.get(
         `
             cd /home/download
-            youtube-dl -f 18 ${url}
+            youtube-dl -f 18 ${url} -o ${randomname}.mp4
         `,
         function(err, data, stderr){
-          let url = config.baseUrl + filename + '.mp4';
-          console.log(url);
+          let url = config.baseUrl + randomname + '.mp4';
           util.sendMail({
               "to": email,
               "subject": "主人，视频已经帮你下载好了。",

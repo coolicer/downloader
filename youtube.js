@@ -1,6 +1,7 @@
 const fetchVideoInfo = require('youtube-info');
 const querystring = require('querystring');
 const config = require('./config');
+const util = require('./util');
 const cmd=require('node-cmd');
 
 function Youtube(url) {
@@ -28,7 +29,7 @@ function cmdDown(url, filename) {
           const url = config.baseUrl; + filename;
           util.sendMail({
               "to": email,
-              "subject": "主人，已经帮你下载好了。",
+              "subject": "主人，视频已经帮你下载好了。",
               "html": '<div style="font-size:20px;">您要的' + filename + ', 去' + '<a href=" '+ url +'">下载</a></div>'
           });
         }

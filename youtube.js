@@ -4,7 +4,7 @@ const config = require('./config');
 const util = require('./util');
 const cmd=require('node-cmd');
 
-function Youtube(url) {
+function Youtube(url, email) {
   let videoId;
   let _url = url;
   url = url.split('?')[1];
@@ -15,12 +15,11 @@ function Youtube(url) {
       return videoInfo.title;
     })
     .then((filename) => {
-      cmdDown(_url, filename);
+      cmdDown(_url, filename, email);
     });
 }
 
-function cmdDown(url, filename) {
-  const email = config.email.from;
+function cmdDown(url, filename, email) {
   cmd.get(
         `
             cd /home/download

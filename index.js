@@ -39,7 +39,7 @@ var _http = http.createServer( function(req, res) {
                 return res.end('链接都错了下载个毛啊');
             }
             if ( /(youtu.be)|(youtube.com)/.test(url)) {
-                youtube(url);
+                youtube(url, email);
             } else {
                 aria2.download(url, email);
             }

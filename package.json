@@ -13,6 +13,7 @@
     "aria2": "^3.0.0",
     "body-parser": "^1.17.1",
     "node-cmd": "^3.0.0",
-    "nodemailer": "^3.1.5"
+    "nodemailer": "^3.1.5",
+    "youtube-info": "^1.1.1"
   }
 }

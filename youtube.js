@@ -1,5 +1,6 @@
 const fetchVideoInfo = require('youtube-info');
 const querystring = require('querystring');
+const config = require('./config');
 const cmd=require('node-cmd');
 
 function Youtube(url) {
@@ -24,12 +25,12 @@ function cmdDown(url, filename) {
             youtube-dl -f 18 ${url}
         `,
         function(err, data, stderr){
-            if (!err) {
-               console.log('the node-cmd cloned dir contains these files :\n\n',data)
-            } else {
-               console.log('error', err)
-            }
- 
+          const url = config.baseUrl; + filename;
+          util.sendMail({
+              "to": email,
+              "subject": "主人，已经帮你下载好了。",
+              "html": '<div style="font-size:20px;">您要的' + filename + ', 去' + '<a href=" '+ url +'">下载</a></div>'
+          });
         }
     );
 }

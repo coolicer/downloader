@@ -39,12 +39,12 @@ Down.prototype.download = function(url, email) {
     _onDownloadComplete();
 }
 
-function _send(email, filename, downloadUrl) {
+function _send(email, filename, url) {
     filename = decodeURIComponent(filename);
     util.sendMail({
         "to": email,
         "subject": "主人，已经帮你下载好了。",
-        "html": '<div style="font-size:20px;">您要的' + filename + ', 去' + '<a href=" '+ downloadUrl +'">下载</a></div>'
+        "html": '<div style="font-size:20px;">您要的' + filename + ', 去' + '<a href=" '+ url +'">下载</a></div>'
     });
 }
 

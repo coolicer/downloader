@@ -26,7 +26,8 @@ function cmdDown(url, filename, email) {
             youtube-dl -f 18 ${url}
         `,
         function(err, data, stderr){
-          const url = config.baseUrl; + filename;
+          filename = encodeURIComponent(filename);
+          const url = config.baseUrl + filename;
           util.sendMail({
               "to": email,
               "subject": "主人，视频已经帮你下载好了。",

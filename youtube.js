@@ -20,6 +20,7 @@ function Youtube(url) {
 }
 
 function cmdDown(url, filename) {
+  const email = config.email.from;
   cmd.get(
         `
             cd /home/download

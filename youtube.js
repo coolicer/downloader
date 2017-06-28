@@ -9,22 +9,22 @@ function Youtube(url, email) {
     if (/youtu.be/.test(url)) {
         url = url.split('be/');
         let id = url[1];
-        dealWithUrl(id);
+        dealWithUrl(id, email);
     } else {
         url = url.split('?')[1];
         url = querystring.parse(url);
         let id = url.v;
-        dealWithUrl(id);
+        dealWithUrl(id, email);
     }
 }
 
-function dealWithUrl(videoId) {
+function dealWithUrl(videoId, email) {
     fetchVideoInfo(videoId)
         .then((videoInfo) => {
             return videoInfo.title;
         })
         .then((filename) => {
-            cmdDown(filename, email, id);
+            cmdDown(filename, email, videoId);
         });
 }
 

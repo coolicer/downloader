@@ -6,15 +6,14 @@ const util = require('./util');
 const cmd = require('node-cmd');
 
 function Youtube(url, email) {
-    let videoId;
     if (/youtu.be/.test(url)) {
-        let url = url.split('be/');
+        url = url.split('be/');
         url = url[1];
         dealWithUrl(id);
     } else {
-        let url = url.split('?')[1];
+        url = url.split('?')[1];
         url = querystring.parse(url);
-        let videoId = url.v;
+        let id = url.v;
         dealWithUrl(id);
     }
 }

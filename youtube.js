@@ -8,7 +8,7 @@ const cmd = require('node-cmd');
 function Youtube(url, email) {
     if (/youtu.be/.test(url)) {
         url = url.split('be/');
-        url = url[1];
+        let id = url[1];
         dealWithUrl(id);
     } else {
         url = url.split('?')[1];

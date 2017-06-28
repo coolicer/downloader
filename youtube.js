@@ -1,48 +1,71 @@
 const fetchVideoInfo = require('youtube-info');
 const querystring = require('querystring');
+const https = require('https');
 const config = require('./config');
 const util = require('./util');
-const cmd=require('node-cmd');
+const cmd = require('node-cmd');
 
 function Youtube(url, email) {
-  let videoId;
-  let _url = url;
-  url = url.split('?')[1];
-  url = querystring.parse(url);
-  videoId = url.v;
-  videoId && fetchVideoInfo(videoId)
-    .then((videoInfo) => {
-      return videoInfo.title;
-    })
-    .then((filename) => {
-      cmdDown(_url, filename, email);
+    let videoId;
+    if (/youtu.be/.test(url)) {
+        getRealUrl(url)
+            .then((result) => {
+                dealWithUrl(result);
+            });
+    } else {
+        dealWithUrl(url);
+    }
+
+}
+
+function dealWithUrl(url) {
+    const _url = url;
+    url = url.split('?')[1];
+    url = querystring.parse(url);
+    videoId = url.v;
+    videoId && fetchVideoInfo(videoId)
+        .then((videoInfo) => {
+            return videoInfo.title;
+        })
+        .then((filename) => {
+            cmdDown(_url, filename, email);
+        });
+}
+
+function getRealUrl(url) {
+    return new Promise((resovle, reject) => {
+        https.get(url, (res) => {
+            resovle(res.headers.location);
+        }).on('error', (e) => {
+            reject(e);
+        });
     });
 }
 
-function makeid(){
+function makeid() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for( var i=0; i < 7; i++ )
+    for (var i = 0; i < 7; i++)
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
 }
 
 function cmdDown(url, filename, email) {
-  const randomname = makeid();
-  cmd.get(
+    const randomname = makeid();
+    cmd.get(
         `
             cd /home/download
             youtube-dl -f 18 ${url} -o ${randomname}.mp4
         `,
-        function(err, data, stderr){
-          let url = config.baseUrl + randomname + '.mp4';
-          util.sendMail({
-              "to": email,
-              "subject": "主人，视频已经帮你下载好了。",
-              "html": '<div style="font-size:20px;">您要的' + filename + ', 去' + '<a href=" '+ url +'">下载</a></div>'
-          });
+        function (err, data, stderr) {
+            let url = config.baseUrl + randomname + '.mp4';
+            util.sendMail({
+                "to": email,
+                "subject": "主人，视频已经帮你下载好了。",
+                "html": '<div style="font-size:20px;">您要的' + filename + ', 去' + '<a href=" ' + url + '">下载</a></div>'
+            });
         }
     );
 }

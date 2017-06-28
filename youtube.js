@@ -8,38 +8,25 @@ const cmd = require('node-cmd');
 function Youtube(url, email) {
     let videoId;
     if (/youtu.be/.test(url)) {
-        getRealUrl(url)
-            .then((result) => {
-                dealWithUrl(result);
-            });
+        let url = url.split('be/');
+        url = url[1];
+        dealWithUrl(id);
     } else {
-        dealWithUrl(url);
+        let url = url.split('?')[1];
+        url = querystring.parse(url);
+        let videoId = url.v;
+        dealWithUrl(id);
     }
-
 }
 
-function dealWithUrl(url) {
-    const _url = url;
-    url = url.split('?')[1];
-    url = querystring.parse(url);
-    videoId = url.v;
-    videoId && fetchVideoInfo(videoId)
+function dealWithUrl(videoId) {
+    fetchVideoInfo(videoId)
         .then((videoInfo) => {
             return videoInfo.title;
         })
         .then((filename) => {
-            cmdDown(_url, filename, email);
+            cmdDown(filename, email, id);
         });
-}
-
-function getRealUrl(url) {
-    return new Promise((resovle, reject) => {
-        https.get(url, (res) => {
-            resovle(res.headers.location);
-        }).on('error', (e) => {
-            reject(e);
-        });
-    });
 }
 
 function makeid() {
@@ -52,7 +39,8 @@ function makeid() {
     return text;
 }
 
-function cmdDown(url, filename, email) {
+function cmdDown(filename, email, id) {
+    const url = `https://www.youtube.com/watch?v=${id}`;
     const randomname = makeid();
     cmd.get(
         `
@@ -69,5 +57,4 @@ function cmdDown(url, filename, email) {
         }
     );
 }
-// Youtube('https://wwww.youtube.com/watch?v=m_lnmN6F34w');
 module.exports = Youtube;

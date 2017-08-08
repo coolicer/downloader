@@ -38,9 +38,19 @@ function makeid() {
     return text;
 }
 
+function makeHtml(filename, url) {
+    var eStr = ['<div>'];
+    eStr.push('您要的' + filename);
+    eStr.push('<br />');
+    eStr.push('<a href="' + url + '">' + url + '</a>');
+    eStr.push('</div>');
+    return eStr.join('');
+}
+
 function cmdDown(filename, email, id) {
     const url = `https://www.youtube.com/watch?v=${id}`;
     const randomname = makeid();
+    const html = makeHtml(filename, url);
     cmd.get(
         `
             cd /home/download
@@ -51,7 +61,7 @@ function cmdDown(filename, email, id) {
             util.sendMail({
                 "to": email,
                 "subject": "主人，视频已经帮你下载好了。",
-                "html": '<div style="font-size:14px;">您要的' + filename + ', 去' + '<a href=" ' + url + '">下载</a>' + url + '</div>'
+                "html": html
             });
         }
     );

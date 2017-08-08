@@ -50,7 +50,6 @@ function makeHtml(filename, url) {
 function cmdDown(filename, email, id) {
     const url = `https://www.youtube.com/watch?v=${id}`;
     const randomname = makeid();
-    const html = makeHtml(filename, url);
     cmd.get(
         `
             cd /home/download
@@ -58,6 +57,7 @@ function cmdDown(filename, email, id) {
         `,
         function (err, data, stderr) {
             let url = config.baseUrl + randomname + '.mp4';
+            const html = makeHtml(filename, url);
             util.sendMail({
                 "to": email,
                 "subject": "主人，视频已经帮你下载好了。",

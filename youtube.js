@@ -51,7 +51,7 @@ function cmdDown(filename, email, id) {
             util.sendMail({
                 "to": email,
                 "subject": "主人，视频已经帮你下载好了。",
-                "html": '<div style="font-size:20px;">您要的' + filename + ', 去' + '<a href=" ' + url + '">下载</a>' + url + '</div>'
+                "html": '<div style="font-size:14px;">您要的' + filename + ', 去' + '<a href=" ' + url + '">下载</a>' + url + '</div>'
             });
         }
     );

@@ -3,13 +3,38 @@ var path = require('path');
 var fs = require('fs');
 var bodyParser = require('body-parser');
 var parser = bodyParser.urlencoded({extended: false});
+var exec = require('child_process').exec;
+var cmd = require('node-cmd');
 var Aria2 = require('./aria2');
 var config = require('./config');
 var aria2 = new Aria2();
 var youtube = require('./youtube');
 var index = fs.readFileSync('./index.html');
 var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
+var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+
+const startAriaServer = () => {
+    if (checkAriaIsRuning()) return;
+    cmd.get(
+        `
+            cd /root
+            aria2c --conf-path=./aria2c.conf  -D
+        `,
+        function (err, data, stderr) {
+            console.log('Aria2c start.');
+        }
+    );
+};
+
+const checkAriaIsRuning = () => {
+    exec('ps aux | grep aria* | grep -v grep | wc -l', function(err, output){
+        if(err) throw err;
+        if(output == 0) {
+            return false;
+        }
+        return true;
+    });
+};
 
 var _http = http.createServer( function(req, res) {
     
@@ -52,5 +77,6 @@ var _http = http.createServer( function(req, res) {
 
 
 _http.listen(3001 , function() {
-    console.log('server start at: http://127.0.0.1:3001');
+    console.log('server start.');
+    startAriaServer();
 });

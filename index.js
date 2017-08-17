@@ -14,30 +14,21 @@ var rEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 var rUrl = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 
 const checkAriaIsRunning = () => {
-    cmd.get(
-        `
-            ps aux | grep aria* | grep -v grep | wc -l
-        `,
+    cmd.get('ps aux | grep aria* | grep -v grep | wc -l',
         function (err, data, stderr) {
-           console.log(data);
+           if (data > 0) {
+            return true;
+           }
+           return false;
         }
     );
-    exec('ps aux | grep aria* | grep -v grep | wc -l', function(err, output){
-        if(err) throw err;
-        if(output == 0) {
-            return false;
-        }
-        return true;
-    });
 };
 
 const startAriaServer = () => {
-    console.log('isrun', checkAriaIsRunning());
     if (checkAriaIsRunning()) {
         console.log('Aria2c already started.');
         return;
     }
-        
     cmd.get(
         `
             cd /root

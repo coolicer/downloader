@@ -13,6 +13,16 @@ var index = fs.readFileSync('./index.html');
 var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 
+const checkAriaIsRunning = () => {
+    exec('ps aux | grep aria* | grep -v grep | wc -l', function(err, output){
+        if(err) throw err;
+        if(output == 0) {
+            return false;
+        }
+        return true;
+    });
+};
+
 const startAriaServer = () => {
     if (checkAriaIsRuning()) return;
     cmd.get(
@@ -24,16 +34,6 @@ const startAriaServer = () => {
             console.log('Aria2c start.');
         }
     );
-};
-
-const checkAriaIsRunning = () => {
-    exec('ps aux | grep aria* | grep -v grep | wc -l', function(err, output){
-        if(err) throw err;
-        if(output == 0) {
-            return false;
-        }
-        return true;
-    });
 };
 
 var _http = http.createServer( function(req, res) {

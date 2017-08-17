@@ -24,7 +24,7 @@ const checkAriaIsRunning = () => {
 };
 
 const startAriaServer = () => {
-    if (checkAriaIsRunning()) return;
+    if (checkAriaIsRunning()) return console.log('Aria2c already started.');
     cmd.get(
         `
             cd /root

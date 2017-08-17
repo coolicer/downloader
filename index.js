@@ -14,30 +14,32 @@ var rEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 var rUrl = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 
 const checkAriaIsRunning = () => {
-    cmd.get('ps aux | grep aria* | grep -v grep | wc -l',
-        function (err, data, stderr) {
-           if (data > 0) {
-            return true;
-           }
-           return false;
-        }
-    );
+    return new Promise((resolve, reject) => {
+        cmd.get('ps aux | grep aria* | grep -v grep | wc -l',
+            function (err, data, stderr) {
+               if (err) reject(false);
+               if (data > 0) {
+                resolve(true);
+               }
+               resolve(false);
+            }
+        );
+    });   
 };
 
 const startAriaServer = () => {
-    if (checkAriaIsRunning()) {
-        console.log('Aria2c already started.');
-        return;
-    }
-    cmd.get(
-        `
-            cd /root
-            aria2c --conf-path=./aria2c.conf  -D
-        `,
-        function (err, data, stderr) {
-            console.log('Aria2c start.');
-        }
-    );
+    checkAriaIsRunning().then((isRunning) => {
+        if (isRunning) return console.log('Aria2c already started.');
+        cmd.get(
+            `
+                cd /root
+                aria2c --conf-path=./aria2c.conf  -D
+            `,
+            function (err, data, stderr) {
+                console.log('Aria2c start.');
+            }
+        );
+    }); 
 };
 
 var _http = http.createServer( function(req, res) {

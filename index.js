@@ -26,7 +26,7 @@ const startAriaServer = () => {
     );
 };
 
-const checkAriaIsRuning = () => {
+const checkAriaIsRunning = () => {
     exec('ps aux | grep aria* | grep -v grep | wc -l', function(err, output){
         if(err) throw err;
         if(output == 0) {

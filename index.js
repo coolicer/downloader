@@ -3,17 +3,25 @@ var path = require('path');
 var fs = require('fs');
 var bodyParser = require('body-parser');
 var parser = bodyParser.urlencoded({extended: false});
-var exec = require('child_process').exec;
 var cmd = require('node-cmd');
+
 var Aria2 = require('./aria2');
 var config = require('./config');
 var aria2 = new Aria2();
 var youtube = require('./youtube');
 var index = fs.readFileSync('./index.html');
-var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+var rEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+var rUrl = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 
 const checkAriaIsRunning = () => {
+    cmd.get(
+        `
+            ps aux | grep aria* | grep -v grep | wc -l
+        `,
+        function (err, data, stderr) {
+           console.log(data);
+        }
+    );
     exec('ps aux | grep aria* | grep -v grep | wc -l', function(err, output){
         if(err) throw err;
         if(output == 0) {
@@ -59,13 +67,13 @@ var _http = http.createServer( function(req, res) {
             if(email == '') {
                 return res.end('邮件都没下载个毛啊');
             }
-            if(!emailPattern.test(email)) {
+            if(!rEmail.test(email)) {
                 return res.end('邮件地址都错了下载个毛啊');
             }
             if(url == '') {
                 return res.end('链接都没下载个毛啊');
             }
-            if(!urlPattern.test(url)) {
+            if(!rUrl.test(url)) {
                 return res.end('链接都错了下载个毛啊');
             }
             if ( /(youtu.be)|(youtube.com)/.test(url)) {

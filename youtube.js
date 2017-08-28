@@ -21,16 +21,13 @@ function Youtube(url, email) {
 function dealWithUrl(videoId, email) {
     fetchVideoInfo(videoId)
         .then((videoInfo) => {
-            return videoInfo.title;
-        })
-        .then((filename) => {
-            cmdDown(filename, email, videoId);
+            cmdDown(videoInfo.title, email, videoId);
         });
 }
 
 function makeid() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let text = "";
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     for (var i = 0; i < 7; i++)
         text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -39,7 +36,7 @@ function makeid() {
 }
 
 function makeHtml(filename, url) {
-    var eStr = ['<div>'];
+    let eStr = ['<div>'];
     eStr.push('您要的' + filename);
     eStr.push('<br />');
     eStr.push('<a href="' + url + '">' + url + '</a>');

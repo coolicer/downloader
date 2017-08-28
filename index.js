@@ -17,8 +17,7 @@ const checkAriaIsRunning = () => {
     return new Promise((resolve, reject) => {
         cmd.get(
             `
-                cd /root
-                ps aux | grep aria* | grep -v grep | wc -l
+                ps aux | grep aria2c | grep -v grep | wc -l
             `,
             function (err, data, stderr) {
                if (err) reject(false);

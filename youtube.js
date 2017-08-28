@@ -1,6 +1,5 @@
 const fetchVideoInfo = require('youtube-info');
 const querystring = require('querystring');
-const https = require('https');
 const config = require('./config');
 const util = require('./util');
 const cmd = require('node-cmd');

@@ -15,7 +15,11 @@ var rUrl = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?
 
 const checkAriaIsRunning = () => {
     return new Promise((resolve, reject) => {
-        cmd.get('ps aux | grep aria* | grep -v grep | wc -l',
+        cmd.get(
+            `
+                cd /root
+                ps aux | grep aria* | grep -v grep | wc -l
+            `,
             function (err, data, stderr) {
                if (err) reject(false);
                if (data > 0) {

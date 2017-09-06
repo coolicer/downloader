@@ -61,7 +61,6 @@ function cmdDown(filename, email, id, anhao) {
         _cmd,
         function (err, data, stderr) {
             let url = config.baseUrl + randomname + '.mp4';
-            if (anhao === 'you-get') url = '下载完毕！';
             const html = makeHtml(filename, url);
             util.sendMail({
                 "to": email,

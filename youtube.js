@@ -61,6 +61,7 @@ function cmdDown(filename, email, id, anhao) {
         _cmd,
         function (err, data, stderr) {
             let url = config.baseUrl + randomname + '.mp4';
+            url = url.replace(/\.download/, '');
             const html = makeHtml(filename, url);
             util.sendMail({
                 "to": email,

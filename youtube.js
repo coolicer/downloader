@@ -60,7 +60,8 @@ function cmdDown(filename, email, id, anhao) {
     cmd.get(
         _cmd,
         function (err, data, stderr) {
-            let url = config.baseUrl + randomname + '.mp4';
+            let url = config.baseUrl + randomname;
+            if (anhao !== 'you-get') url += '.mp4';
             const html = makeHtml(filename, url);
             util.sendMail({
                 "to": email,

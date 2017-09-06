@@ -53,15 +53,14 @@ function cmdDown(filename, email, id, anhao) {
     if (anhao === 'you-get') {
         _cmd = `
             cd /home/download
-            you-get ${url} -O ${randomname}.mp4
+            you-get ${url} -O ${randomname}
         `;
     }
     
     cmd.get(
         _cmd,
         function (err, data, stderr) {
-            let url = config.baseUrl + randomname;
-            if (anhao !== 'you-get') url += '.mp4';
+            let url = config.baseUrl + randomname + '.mp4';
             const html = makeHtml(filename, url);
             util.sendMail({
                 "to": email,

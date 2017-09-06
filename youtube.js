@@ -53,7 +53,7 @@ function cmdDown(filename, email, id, anhao) {
     if (anhao === 'you-get') {
         _cmd = `
             cd /home/download
-            you-get ${url}
+            you-get ${url} -O ${randomname}.mp4
         `;
     }
     

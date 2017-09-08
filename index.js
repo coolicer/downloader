@@ -46,11 +46,13 @@ const startAriaServer = () => {
 };
 
 var _http = http.createServer( function(req, res) {
-    
     var method = req.method.toLocaleLowerCase();
     if (/\.well-known/.test(req.url)) { // https
-        req.writeHead(200, {
-          "Content-Type": "application/octet-stream"
+        var stat = fs.statSync(req.url);
+        console.log(stat);
+        res.writeHead(200, {
+          "Content-Type": "application/octet-stream",
+          "Content-Length": stat.size
         });
         return fs.createReadStream(req.url).pipe(res);
     }

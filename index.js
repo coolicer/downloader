@@ -47,14 +47,11 @@ const startAriaServer = () => {
 
 var _http = http.createServer( function(req, res) {
     var method = req.method.toLocaleLowerCase();
-    if (/\.well-known/.test(req.url)) { // https
-        var stat = fs.statSync(req.url);
-        console.log(stat);
+    if (/\.well-known/.test(req.url)) { // https 验证
         res.writeHead(200, {
-          "Content-Type": "application/octet-stream",
-          "Content-Length": stat.size
+          "Content-Type": "application/octet-stream"
         });
-        return fs.createReadStream(req.url).pipe(res);
+        return fs.createReadStream(__dirname + req.url).pipe(res);
     }
     if (method == 'get') {
         res.setHeader('Content-Type', 'text/html');
